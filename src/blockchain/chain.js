@@ -32,6 +32,7 @@ class Chain {
     for (let i = 1; i < remoteChain.length; i++) {
       const block = remoteChain[i];
       const prevBlock = remoteChain[i - 1];
+
       if (
         block.prevHash !== prevBlock.hash ||
         block.hash !== Block.hashFromData(block)
@@ -55,6 +56,14 @@ class Chain {
     this.chain = chainToReplace.chain;
     console.log("Chain replaced.");
     return true;
+  }
+
+  getBlockDataFromChain(chain) {
+    return {
+      chain,
+      firstBlock: chain[0],
+      lastBlock: chain[chain.length - 1],
+    };
   }
 }
 

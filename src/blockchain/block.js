@@ -4,21 +4,21 @@ class Block {
   constructor(prevHash, data) {
     this.prevHash = prevHash;
     this.data = data;
-    this.timestamp = Date.now();
-    this.hash = Block.hashFromData(this.toString());
+    this.timestamp = prevHash === "0xGENESIS" ? "0xGENESIS" : Date.now();
+    this.hash = Block.hashFromData(this);
   }
 
-  toString() {
+  static serializedBlockToString(block) {
     return JSON.stringify({
-      prevHash: this.prevHash,
-      data: this.data,
-      timestamp: this.timestamp,
+      prevHash: block.prevHash,
+      data: block.data,
+      timestamp: block.timestamp,
     });
   }
 
   static hashFromData(block) {
     const hash = crypto.createHash("SHA256");
-    hash.update(block.toString());
+    hash.update(Block.serializedBlockToString(block));
     const hexHash = hash.digest("hex");
     return hexHash;
   }

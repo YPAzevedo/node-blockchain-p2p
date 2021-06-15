@@ -14,6 +14,7 @@ fastify.get("/blocks", async (request, reply) => {
 
 fastify.post("/mine", async (request, reply) => {
   blockchain.addBlock(request.body.data);
+  p2pServer.syncChains();
   return blockchain.chain;
 });
 
