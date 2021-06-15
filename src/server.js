@@ -8,11 +8,11 @@ const PORT = process.env.PORT || 3333;
 const blockchain = new Chain();
 const p2pServer = new P2PServer(blockchain);
 
-fastify.get("/blocks", async (request, reply) => {
+fastify.get("/blocks", async () => {
   return blockchain.chain;
 });
 
-fastify.post("/mine", async (request, reply) => {
+fastify.post("/mine", async (request) => {
   blockchain.addBlock(request.body.data);
   p2pServer.syncChains();
   return blockchain.chain;

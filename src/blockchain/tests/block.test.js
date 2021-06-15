@@ -1,4 +1,5 @@
 const Block = require("../block");
+const { DIFICULTY } = require("../../blockchain.config");
 
 describe("Block", () => {
   let data, genesis, block;
@@ -19,5 +20,9 @@ describe("Block", () => {
 
   it("hash and hashFromData for the same block match", () => {
     expect(block.hash).toBe(Block.hashFromData(block));
+  });
+
+  it("generates a hash with start zeros that match dificulty", () => {
+    expect(block.hash.substring(0, DIFICULTY)).toBe("0".repeat(DIFICULTY));
   });
 });

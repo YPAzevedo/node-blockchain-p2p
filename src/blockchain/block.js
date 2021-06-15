@@ -1,10 +1,11 @@
 const crypto = require("crypto");
-
+const { DIFICULTY } = require("../blockchain.config");
 class Block {
-  constructor(prevHash, data) {
+  constructor(prevHash, data, nonce) {
     this.prevHash = prevHash;
     this.data = data;
     this.timestamp = prevHash === "0xGENESIS" ? "0xGENESIS" : Date.now();
+    this.nonce = nonce;
     this.hash = Block.hashFromData(this);
   }
 
@@ -24,12 +25,19 @@ class Block {
   }
 
   static genesis() {
-    return new Block("0xGENESIS", null);
+    return new Block("0xGENESIS", null, 0);
   }
 
   static mine(prevBlock, data) {
-    //lastBlock can come from chain
-    return new Block(prevBlock.hash, data);
+    let nonce = 0;
+    let block;
+    // Proof of work
+    do {
+      nonce++;
+      block = new Block(prevBlock.hash, data, nonce);
+    } while (block.hash.substring(0, DIFICULTY) !== "0".repeat(DIFICULTY));
+
+    return block;
   }
 }
 
