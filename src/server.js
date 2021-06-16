@@ -1,18 +1,16 @@
-const Chain = require("./blockchain/chain");
-const P2PServer = require("./p2p/server");
+const Chain = require('./blockchain/chain');
+const P2PServer = require('./p2p/server');
 
-const fastify = require("fastify")({ logger: true });
+const fastify = require('fastify')({ logger: true });
 
 const PORT = process.env.PORT || 3333;
 
 const blockchain = new Chain();
 const p2pServer = new P2PServer(blockchain);
 
-fastify.get("/blocks", async () => {
-  return blockchain.chain;
-});
+fastify.get('/blocks', async () => blockchain.chain);
 
-fastify.post("/mine", async (request) => {
+fastify.post('/mine', async (request) => {
   blockchain.addBlock(request.body.data);
   p2pServer.syncChains();
   return blockchain.chain;

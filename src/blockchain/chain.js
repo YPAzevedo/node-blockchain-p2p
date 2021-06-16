@@ -1,4 +1,4 @@
-const Block = require("./block");
+const Block = require('./block');
 
 class Chain {
   constructor() {
@@ -19,6 +19,7 @@ class Chain {
     this.chain.push(block);
     return block;
   }
+
   // Validates chain is not corrupted.
   isValidChain(remoteChainInstance) {
     const remoteChain = remoteChainInstance.chain;
@@ -43,18 +44,19 @@ class Chain {
 
     return true;
   }
+
   // Replace chain for consistency for all chains in the network
   replaceChain(chainToReplace) {
     if (chainToReplace.chain.length <= this.chain.length) {
-      console.log("Recieved chain is not longer then current chain.");
+      console.log('Recieved chain is not longer then current chain.');
       return false;
     }
     if (!this.isValidChain(chainToReplace)) {
-      console.log("Recieved chain is corrupted.");
+      console.log('Recieved chain is corrupted.');
       return false;
     }
     this.chain = chainToReplace.chain;
-    console.log("Chain replaced.");
+    console.log('Chain replaced.');
     return true;
   }
 
