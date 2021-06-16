@@ -10,21 +10,25 @@ class P2PServer {
     this.sockets = [];
   }
 
-  connectSocket(socket, url = "N/A") {
-    console.log(`✅ Socket connected at ${url}`);
-
+  connectSocket(socket) {
     this.sockets.push(socket);
 
     this.messageHandler(socket);
 
     this.sendChain(socket);
+
+    console.log(
+      `✅ Socket connected at ${socket._url || "N/A"} you have ${
+        this.sockets.length
+      } listening`
+    );
   }
 
   connectToPeers() {
     peers.forEach((peerAddress) => {
       const socket = new WebSocket(peerAddress);
 
-      socket.on("open", () => this.connectSocket(socket, peerAddress));
+      socket.on("open", () => this.connectSocket(socket));
       socket.on("close", () =>
         console.log(`❌ Closed connection for peer ${peerAddress}`)
       );
@@ -54,7 +58,7 @@ class P2PServer {
 
     this.connectToPeers();
 
-    server.on("connection", (socket) => this.connectSocket(socket, "HOST"));
+    server.on("connection", (socket) => this.connectSocket(socket));
     console.log(`🍐 Listening to p2p connetction on: ${P2P_PORT}`);
   }
 }

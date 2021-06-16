@@ -6,8 +6,6 @@
   "scripts": {
     "dev": "nodemon src/index.js",
     "dev:5001": "PORT=3001 P2P_PORT=5001 yarn dev",
-    "dev:5002": "PORT=3002 P2P_PORT=5002 PEERS=ws://localhost:5001 yarn dev",
-    "dev:test": "nodemon src/dev-test.js",
     "test": "jest"
   },
   "keywords": [],
